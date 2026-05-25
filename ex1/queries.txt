@@ -7,12 +7,7 @@ db.jogos.countDocuments()
 db.jogos.countDocuments({ category: "Family" })
 
 -- 3. Qual a lista de autores (ordenada alfabeticamente e sem repetições)?
-db.jogos.aggregate([
-  { $unwind: "$autores" },
-  { $group: { _id: "$autores.name" } },
-  { $sort: { _id: 1 } },
-  { $project: { _id: 1 } }
-])
+db.autores.find({}, { name: 1, _id: 0 })
 
 -- 4. Qual a distribuição de jogos por ano de lançamento?
 db.jogos.aggregate([
