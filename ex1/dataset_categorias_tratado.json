@@ -1,0 +1,128 @@
+[
+  {
+    "_id": "Family",
+    "categoria": "Family",
+    "jogos": [
+      {
+        "id": "catan",
+        "nome": "Catan"
+      },
+      {
+        "id": "ticket-to-ride",
+        "nome": "Ticket to Ride"
+      },
+      {
+        "id": "azul",
+        "nome": "Azul"
+      },
+      {
+        "id": "carcassonne",
+        "nome": "Carcassonne"
+      },
+      {
+        "id": "pandemic",
+        "nome": "Pandemic"
+      },
+      {
+        "id": "splendor",
+        "nome": "Splendor"
+      },
+      {
+        "id": "cascadia",
+        "nome": "Cascadia"
+      },
+      {
+        "id": "patchwork",
+        "nome": "Patchwork"
+      }
+    ]
+  },
+  {
+    "_id": "Party",
+    "categoria": "Party",
+    "jogos": [
+      {
+        "id": "codenames",
+        "nome": "Codenames"
+      },
+      {
+        "id": "king-of-tokyo",
+        "nome": "King of Tokyo"
+      }
+    ]
+  },
+  {
+    "_id": "Strategy",
+    "categoria": "Strategy",
+    "jogos": [
+      {
+        "id": "scythe",
+        "nome": "Scythe"
+      },
+      {
+        "id": "terraforming-mars",
+        "nome": "Terraforming Mars"
+      },
+      {
+        "id": "gloomhaven",
+        "nome": "Gloomhaven"
+      },
+      {
+        "id": "wingspan",
+        "nome": "Wingspan"
+      },
+      {
+        "id": "7-wonders",
+        "nome": "7 Wonders"
+      },
+      {
+        "id": "root",
+        "nome": "Root"
+      },
+      {
+        "id": "everdell",
+        "nome": "Everdell"
+      },
+      {
+        "id": "brass-birmingham",
+        "nome": "Brass: Birmingham"
+      },
+      {
+        "id": "castles-of-burgundy",
+        "nome": "The Castles of Burgundy"
+      },
+      {
+        "id": "blood-rage",
+        "nome": "Blood Rage"
+      },
+      {
+        "id": "ark-nova",
+        "nome": "Ark Nova"
+      },
+      {
+        "id": "spirit-island",
+        "nome": "Spirit Island"
+      },
+      {
+        "id": "dune-imperium",
+        "nome": "Dune: Imperium"
+      },
+      {
+        "id": "lost-ruins-of-arnak",
+        "nome": "Lost Ruins of Arnak"
+      },
+      {
+        "id": "dominion",
+        "nome": "Dominion"
+      },
+      {
+        "id": "twilight-imperium-4",
+        "nome": "Twilight Imperium: Fourth Edition"
+      },
+      {
+        "id": "puerto-rico",
+        "nome": "Puerto Rico"
+      }
+    ]
+  }
+]

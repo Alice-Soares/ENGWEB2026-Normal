@@ -1,0 +1,272 @@
+[
+  {
+    "_id": "Alan R. Moon",
+    "name": "Alan R. Moon",
+    "jogos": [
+      {
+        "id": "ticket-to-ride",
+        "nome": "Ticket to Ride"
+      }
+    ]
+  },
+  {
+    "_id": "Andreas Seyfarth",
+    "name": "Andreas Seyfarth",
+    "jogos": [
+      {
+        "id": "puerto-rico",
+        "nome": "Puerto Rico"
+      }
+    ]
+  },
+  {
+    "_id": "Antoine Bauza",
+    "name": "Antoine Bauza",
+    "jogos": [
+      {
+        "id": "7-wonders",
+        "nome": "7 Wonders"
+      }
+    ]
+  },
+  {
+    "_id": "Christian T. Petersen",
+    "name": "Christian T. Petersen",
+    "jogos": [
+      {
+        "id": "twilight-imperium-4",
+        "nome": "Twilight Imperium: Fourth Edition"
+      }
+    ]
+  },
+  {
+    "_id": "Cole Wehrle",
+    "name": "Cole Wehrle",
+    "jogos": [
+      {
+        "id": "root",
+        "nome": "Root"
+      }
+    ]
+  },
+  {
+    "_id": "Donald X. Vaccarino",
+    "name": "Donald X. Vaccarino",
+    "jogos": [
+      {
+        "id": "dominion",
+        "nome": "Dominion"
+      }
+    ]
+  },
+  {
+    "_id": "Elizabeth Hargrave",
+    "name": "Elizabeth Hargrave",
+    "jogos": [
+      {
+        "id": "wingspan",
+        "nome": "Wingspan"
+      }
+    ]
+  },
+  {
+    "_id": "Eric M. Lang",
+    "name": "Eric M. Lang",
+    "jogos": [
+      {
+        "id": "blood-rage",
+        "nome": "Blood Rage"
+      }
+    ]
+  },
+  {
+    "_id": "Isaac Childres",
+    "name": "Isaac Childres",
+    "jogos": [
+      {
+        "id": "gloomhaven",
+        "nome": "Gloomhaven"
+      }
+    ]
+  },
+  {
+    "_id": "Jacob Fryxelius",
+    "name": "Jacob Fryxelius",
+    "jogos": [
+      {
+        "id": "terraforming-mars",
+        "nome": "Terraforming Mars"
+      }
+    ]
+  },
+  {
+    "_id": "James A. Wilson",
+    "name": "James A. Wilson",
+    "jogos": [
+      {
+        "id": "everdell",
+        "nome": "Everdell"
+      }
+    ]
+  },
+  {
+    "_id": "Jamey Stegmaier",
+    "name": "Jamey Stegmaier",
+    "jogos": [
+      {
+        "id": "scythe",
+        "nome": "Scythe"
+      }
+    ]
+  },
+  {
+    "_id": "Klaus Teuber",
+    "name": "Klaus Teuber",
+    "jogos": [
+      {
+        "id": "catan",
+        "nome": "Catan"
+      }
+    ]
+  },
+  {
+    "_id": "Klaus-Jürgen Wrede",
+    "name": "Klaus-Jürgen Wrede",
+    "jogos": [
+      {
+        "id": "carcassonne",
+        "nome": "Carcassonne"
+      }
+    ]
+  },
+  {
+    "_id": "Marc André",
+    "name": "Marc André",
+    "jogos": [
+      {
+        "id": "splendor",
+        "nome": "Splendor"
+      }
+    ]
+  },
+  {
+    "_id": "Martin Wallace",
+    "name": "Martin Wallace",
+    "jogos": [
+      {
+        "id": "brass-birmingham",
+        "nome": "Brass: Birmingham"
+      }
+    ]
+  },
+  {
+    "_id": "Mathias Wigge",
+    "name": "Mathias Wigge",
+    "jogos": [
+      {
+        "id": "ark-nova",
+        "nome": "Ark Nova"
+      }
+    ]
+  },
+  {
+    "_id": "Matt Leacock",
+    "name": "Matt Leacock",
+    "jogos": [
+      {
+        "id": "pandemic",
+        "nome": "Pandemic"
+      }
+    ]
+  },
+  {
+    "_id": "Michael Kiesling",
+    "name": "Michael Kiesling",
+    "jogos": [
+      {
+        "id": "azul",
+        "nome": "Azul"
+      }
+    ]
+  },
+  {
+    "_id": "Min & Elwen",
+    "name": "Min & Elwen",
+    "jogos": [
+      {
+        "id": "lost-ruins-of-arnak",
+        "nome": "Lost Ruins of Arnak"
+      }
+    ]
+  },
+  {
+    "_id": "Paul Dennen",
+    "name": "Paul Dennen",
+    "jogos": [
+      {
+        "id": "dune-imperium",
+        "nome": "Dune: Imperium"
+      }
+    ]
+  },
+  {
+    "_id": "R. Eric Reuss",
+    "name": "R. Eric Reuss",
+    "jogos": [
+      {
+        "id": "spirit-island",
+        "nome": "Spirit Island"
+      }
+    ]
+  },
+  {
+    "_id": "Randy Flynn",
+    "name": "Randy Flynn",
+    "jogos": [
+      {
+        "id": "cascadia",
+        "nome": "Cascadia"
+      }
+    ]
+  },
+  {
+    "_id": "Richard Garfield",
+    "name": "Richard Garfield",
+    "jogos": [
+      {
+        "id": "king-of-tokyo",
+        "nome": "King of Tokyo"
+      }
+    ]
+  },
+  {
+    "_id": "Stefan Feld",
+    "name": "Stefan Feld",
+    "jogos": [
+      {
+        "id": "castles-of-burgundy",
+        "nome": "The Castles of Burgundy"
+      }
+    ]
+  },
+  {
+    "_id": "Uwe Rosenberg",
+    "name": "Uwe Rosenberg",
+    "jogos": [
+      {
+        "id": "patchwork",
+        "nome": "Patchwork"
+      }
+    ]
+  },
+  {
+    "_id": "Vlaada Chvátil",
+    "name": "Vlaada Chvátil",
+    "jogos": [
+      {
+        "id": "codenames",
+        "nome": "Codenames"
+      }
+    ]
+  }
+]
