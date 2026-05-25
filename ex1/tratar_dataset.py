@@ -12,7 +12,7 @@ def new_file(filename, content):
         json.dump(content, file, ensure_ascii=False, indent=2)
 
 # Ler dataset original
-input_path = "../jogos.json"
+input_path = "jogos.json"
 
 dados = open_json_file(input_path)
 
