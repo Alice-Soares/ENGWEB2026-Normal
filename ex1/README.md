@@ -1,4 +1,4 @@
-# Exercício 1 - API de Dados (Jogos de Tabuleiro)
+# Exercício 1 - Jogos de Tabuleiro (API de Dados)
 
 ## Descrição
 API REST para consultar informações sobre jogos de tabuleiro. Implementa endpoints para listar, consultar, criar e eliminar jogos, bem como listar autores e categorias.
@@ -6,16 +6,16 @@ API REST para consultar informações sobre jogos de tabuleiro. Implementa endpo
 ## Setup da Base de Dados
 
 ### 1. Tratar o Dataset
-O dataset original está em `../jogos.json`. Para gerar os datasets tratados para MongoDB:
+O dataset original está em `jogos.json`. Foi criado um script em pyhton ([tratar_dataset.py](tratar_dataset.py)) para gerar os datasets tratados para MongoDB, :
 
 ```bash
 python3 tratar_dataset.py
 ```
 
 Isto irá gerar 3 ficheiros JSON:
-- `dataset_jogos_tratado.json` - Coleção de jogos
-- `dataset_autores_tratado.json` - Coleção de autores (pré-agregada e ordenada)
-- `dataset_categorias_tratado.json` - Coleção de categorias (pré-agregada e ordenada)
+- [dataset_jogos_tratado.json](dataset_jogos_tratado.json) - Coleção de jogos
+- [dataset_autores_tratado.json](dataset_autores_tratado.json) - Coleção de autores (pré-agregada e ordenada)
+- [dataset_categorias_tratado.json](dataset_categorias_tratado.json) - Coleção de categorias (pré-agregada e ordenada)
 
 ### 2. Base de Dados
 - **Nome da BD:** `jogostabuleiro`
@@ -27,9 +27,16 @@ Isto irá gerar 3 ficheiros JSON:
 ### 3. Confirmação sobre _id
 No MongoDB, `_id` é a chave primária obrigatória. O script converte o campo `id` do dataset original para `_id`, mantendo a mesma informação.
 
+### 4. Índices Criados
+
+As collections possuem índices nos seguintes campos para otimizar as queries:
+- `jogos`: category, year, autores.name, editoras.name
+- `autores`: name
+- `categorias`: categoria
+
 ## Como Executar
 
-### Com Docker (Recomendado)
+### Com Docker 
 Na pasta ex1:
 
 ```bash
@@ -44,16 +51,6 @@ Isto irá:
 A API estará disponível em `http://localhost:17000`
 Swagger UI disponível em `http://localhost:17000/api-docs`
 
-### Local (sem Docker)
-1. Certificar que MongoDB está a correr em `localhost:27017`
-2. Instalar dependências:
-   ```bash
-   npm install
-   ```
-3. Iniciar a API:
-   ```bash
-   npm start
-   ```
 
 ## Endpoints da API
 
@@ -204,6 +201,18 @@ curl http://localhost:17000/categorias
 
 ```
 ex1/
+├── controllers/
+│   └── jogoController.js               # Controladores dos endpoints
+├── models/
+│   ├── Jogo.js                         # Schema Mongoose para jogos
+│   ├── Autor.js                        # Schema Mongoose para autores
+│   └── Categoria.js                    # Schema Mongoose para categorias
+├── mongo-init/
+│   └── import.sh                       # Script de importação de dados MongoDB
+├── routes/
+│   ├── jogoRouter.js                   # Rotas para /jogos
+│   ├── autorRouter.js                  # Rotas para /autores
+│   └── categoriaRouter.js              # Rotas para /categorias
 ├── app.js                              # Aplicação principal Express
 ├── package.json                        # Dependências Node.js
 ├── docker-compose.yml                  # Composição de serviços
@@ -214,18 +223,8 @@ ex1/
 ├── dataset_jogos_tratado.json          # Dataset de jogos (gerado)
 ├── dataset_autores_tratado.json        # Dataset de autores (gerado)
 ├── dataset_categorias_tratado.json     # Dataset de categorias (gerado)
-├── models/
-│   ├── Jogo.js                         # Schema Mongoose para jogos
-│   ├── Autor.js                        # Schema Mongoose para autores
-│   └── Categoria.js                    # Schema Mongoose para categorias
-├── controllers/
-│   └── jogoController.js               # Controladores dos endpoints
-├── routes/
-│   ├── jogoRouter.js                   # Rotas para /jogos
-│   ├── autorRouter.js                  # Rotas para /autores
-│   └── categoriaRouter.js              # Rotas para /categorias
-└── mongo-init/
-    └── import.sh                       # Script de importação de dados MongoDB
+└── queries.txt                         # Exercicio resolvido das queries
+
 ```
 
 ## Detalhes Técnicos
@@ -235,12 +234,6 @@ ex1/
 - **ORM:** Mongoose
 - **Documentação API:** Swagger/OpenAPI
 
-## Índices Criados
-
-As collections possuem índices nos seguintes campos para otimizar as queries:
-- `jogos`: category, year, autores.name, editoras.name
-- `autores`: name
-- `categorias`: categoria
 
 ## Vantagens da Arquitetura com 3 Collections
 
