@@ -1,6 +1,6 @@
 # ENGWEB2026 - Exame de Época Normal
 
-Repositório contendo a resolução de dois exercícios práticos de Engenharia Web: desenvolvimento de uma API de dados sobre jogos de tabuleiro (Exercício 1) e implementação de uma aplicação de gestão de listas de leitura através de engenharia reversa (Exercício 2).
+O repositório contém a resolução de dois exercícios práticos de Engenharia Web: desenvolvimento de uma API de dados sobre jogos de tabuleiro (Exercício 1) e implementação de uma aplicação de gestão de listas de leitura através de engenharia reversa (Exercício 2).
 
 ---
 
@@ -44,6 +44,13 @@ ENGWEB2026-Normal/
 ```
 
 ---
+## Documentação Adicional
+
+Para documentação específica de cada exercício, consultar:
+- [ex1/README.md](ex1/README.md) - Detalhes do Exercício 1
+- [ex2/README.md](ex2/README.md) - Detalhes do Exercício 2
+
+---
 
 ## Exercício 1: API de Dados - Jogos de Tabuleiro
 
@@ -68,24 +75,15 @@ O dataset original foi processado e dividido em 3 ficheiros JSON:
 
 Os dados são automaticamente importados para MongoDB durante a inicialização do container através do script `mongo-init/import.sh`.
 
-### 2. Setup de Base de Dados
+1. Três ficheiros JSON são copiados para `/docker-entrypoint-initdb.d/`
+2. MongoDB executa automaticamente os scripts nesta pasta
+3. Os dados são importados nas coleções `jogos`, `autores` e `categorias`
 
-O setup é completamente automatizado através do Docker:
-
+Para limpar e recarregar:
 ```bash
-cd ex1
+docker-compose down -v
 docker-compose up --build
 ```
-
-Este comando:
-1. Constrói a imagem Node.js com a API Express
-2. Constrói a imagem MongoDB com os dados pré-carregados
-3. Inicia ambos os containers numa rede privada Docker
-4. Importa automaticamente os 3 ficheiros JSON nas coleções respetivas
-
-**Portas:**
-- API: `17000` (exposta ao exterior)
-- MongoDB: `27017` (apenas interna, não exposta)
 
 ### 3. Queries MongoDB
 
@@ -141,37 +139,11 @@ A API responde em `http://localhost:17000` com os seguintes endpoints:
 
 ### 5. Como Executar Exercício 1
 
-```bash
-# Navegar para a pasta
-cd ex1
+Ver instruções completas em [ex1/README.md](ex1/README.md#como-executar) que incluem:
+- Como construir e iniciar com Docker
+- Como testar os endpoints através do **Swagger em `http://localhost:17000/api-docs`**
+- Como parar os serviços
 
-# Construir e iniciar
-docker-compose up --build
-
-# A API fica disponível em http://localhost:17000
-# Swagger disponível em http://localhost:17000/api-docs
-
-# Para parar
-docker-compose down
-
-# Para parar e limpar dados
-docker-compose down -v
-```
-
-**Testar endpoints:**
-```bash
-# Listar todos os jogos
-curl http://localhost:17000/jogos | jq
-
-# Listar autores
-curl http://localhost:17000/autores | jq
-
-# Listar categorias
-curl http://localhost:17000/categorias | jq
-
-# Pesquisar por editora
-curl http://localhost:17000/jogos?editora=KOSMOS | jq
-```
 
 ---
 
@@ -200,28 +172,23 @@ A persistência de dados para o Exercício 2 é realizada através de:
 ```
 
 **Dataset Inicial:**
-O ficheiro `dataset_livros.json` contém 9 livros exemplificativos que são automaticamente importados para MongoDB durante a inicialização.
+O ficheiro `dataset_livros.json` contém 9 livros exemplificativos. 
 
-### 2. Setup de Base de Dados
+Os dados são importados automaticamente para MongoDB durante a inicialização através do script `mongo-init/import.sh`:
 
-O setup é completamente automatizado através do Docker:
+1. O ficheiro `dataset_livros.json` é copiado para `/docker-entrypoint-initdb.d/`
+2. MongoDB executa o script de importação
+3. Os dados são importados na coleção `livros`
 
+Para limpar e recarregar:
 ```bash
-cd ex2
+docker-compose down -v
 docker-compose up --build
 ```
-
-Este comando:
-1. Constrói a imagem Node.js com a API Express
-2. Constrói a imagem MongoDB com dados pré-carregados
-3. Constrói a imagem Nginx para servir a interface web estática
-4. Inicia todos os 3 containers numa rede privada Docker
-5. Importa automaticamente o dataset na coleção livros
-
-**Portas:**
-- API: `19020` (exposta ao exterior)
-- Nginx (Frontend): `19021` (exposta ao exterior)
-- MongoDB: `27017` (apenas interna, não exposta)
+**MongoDB Não Exposto:**
+- MongoDB está configurado apenas para aceitar conexões da rede interna Docker
+- A porta 27017 não é publicada
+- Apenas a API pode comunicar com MongoDB através da rede `docker bridge`
 
 ### 3. Endpoints da API
 
@@ -233,197 +200,12 @@ A API responde em `http://localhost:19020/api/livros` com os seguintes endpoints
 - **PUT /api/livros/:id** - Atualiza o estado lido (boolean) de um livro
 - **DELETE /api/livros/:id** - Remove um livro
 
-### 4. Interface Web
+### 4. Servidor Web - Nginx
 
-A interface Vue.js está disponível em `http://localhost:19021` e oferece:
+O Nginx funciona como servidor web estático para servir a interface Vue.js em `http://localhost:19021`.
 
-- Listagem de todos os livros em cards responsivos
-- Pesquisa em tempo real por título, autor ou género
-- Formulário para adicionar novos livros
-- Checkbox para marcar livros como lidos/por ler
-- Botão para eliminar livros com confirmação
-- Design responsivo (funciona em desktop e mobile)
-- Dark mode com gradiente púrpura
 
-### 5. Como Executar Exercício 2
-
-```bash
-# Navegar para a pasta
-cd ex2
-
-# Construir e iniciar
-docker-compose up --build
-
-# A interface fica disponível em http://localhost:19021
-# A API fica disponível em http://localhost:19020/api/livros
-
-# Para parar
-docker-compose down
-
-# Para parar e limpar dados
-docker-compose down -v
-```
-
-**Testar endpoints:**
-```bash
-# Listar todos os livros
-curl http://localhost:19020/api/livros | jq
-
-# Pesquisar por autor Machado
-curl http://localhost:19020/api/livros?search=Machado | jq
-
-# Adicionar novo livro
-curl -X POST http://localhost:19020/api/livros \
-  -H "Content-Type: application/json" \
-  -d '{
-    "titulo": "O Alienista",
-    "autor": "Machado de Assis",
-    "paginas": 120,
-    "genero": "Conto"
-  }'
-
-# Marcar livro como lido
-curl -X PUT http://localhost:19020/api/livros/ID_DO_LIVRO \
-  -H "Content-Type: application/json" \
-  -d '{"lido": true}'
-
-# Eliminar livro
-curl -X DELETE http://localhost:19020/api/livros/ID_DO_LIVRO
-```
-
----
-
-## Instruções Gerais de Execução
-
-### Pré-requisitos
-
-```bash
-# Docker deve estar instalado
-docker --version
-
-# Docker Compose deve estar disponível
-docker-compose --version
-```
-
-### Executar Ambos os Exercícios
-
-```bash
-# Exercício 1
-cd ex1
-docker-compose up --build
-
-# Em outro terminal, Exercício 2
-cd ex2
-docker-compose up --build
-```
-
-Depois de alguns segundos, os serviços estarão disponíveis:
-
-| Exercício | Serviço | URL | Porta |
-|-----------|---------|-----|-------|
-| Ex1 | API Jogos | http://localhost:17000 | 17000 |
-| Ex1 | Swagger | http://localhost:17000/api-docs | 17000 |
-| Ex2 | Frontend | http://localhost:19021 | 19021 |
-| Ex2 | API Livros | http://localhost:19020/api/livros | 19020 |
-
-### Verificar Status dos Containers
-
-```bash
-# Para Ex1
-docker ps | grep ex1
-
-# Para Ex2
-docker ps | grep ex2
-
-# Ver logs de um serviço
-docker logs nome_do_container -f
-```
-
-### Parar os Serviços
-
-```bash
-# Dentro da pasta ex1 ou ex2
-docker-compose down
-
-# Para remover também os volumes de dados
-docker-compose down -v
-```
-
----
-
-## Stack Tecnológico
-
-### Exercício 1
-
-| Componente | Tecnologia | Versão |
-|-----------|-----------|--------|
-| Runtime | Node.js | 18 (LTS) |
-| Framework | Express.js | ^4.18.2 |
-| Base de Dados | MongoDB | latest |
-| ODM | Mongoose | ^7.0.0 |
-| Documentação | Swagger/OpenAPI | - |
-| Orquestração | Docker Compose | 3.8+ |
-
-### Exercício 2
-
-| Componente | Tecnologia | Versão |
-|-----------|-----------|--------|
-| Runtime | Node.js | 18 (LTS) |
-| Framework | Express.js | ^4.18.2 |
-| Base de Dados | MongoDB | latest |
-| ODM | Mongoose | ^7.0.0 |
-| CORS | cors | ^2.8.5 |
-| Frontend | Vue.js | 3.3.4 (CDN) |
-| HTTP Client | Axios | latest (CDN) |
-| Web Server | Nginx | latest |
-| Orquestração | Docker Compose | 3.8+ |
-
----
-
-## Persistência e Recuperação de Dados
-
-### Exercício 1
-
-Os dados são importados automaticamente em cada inicialização através do script `mongo-init/import.sh`:
-
-1. Três ficheiros JSON são copiados para `/docker-entrypoint-initdb.d/`
-2. MongoDB executa automaticamente os scripts nesta pasta
-3. Os dados são importados nas coleções `jogos`, `autores` e `categorias`
-
-Para limpar e recarregar:
-```bash
-docker-compose down -v
-docker-compose up --build
-```
-
-### Exercício 2
-
-Os dados são importados automaticamente em cada inicialização através do script `mongo-init/import.sh`:
-
-1. O ficheiro `dataset_livros.json` é copiado para `/docker-entrypoint-initdb.d/`
-2. MongoDB executa o script de importação
-3. Os dados são importados na coleção `livros`
-
-Para limpar e recarregar:
-```bash
-docker-compose down -v
-docker-compose up --build
-```
-
----
-
-## Segurança
-
-### MongoDB Não Exposto
-
-Ambos os exercícios seguem a melhor prática de **não expor MongoDB para o exterior**:
-
-- MongoDB está configurado apenas para aceitar conexões da rede interna Docker
-- A porta 27017 não é publicada em nenhum dockerfile
-- Apenas a API pode comunicar com MongoDB através da rede `docker bridge`
-
-### CORS (Exercício 2)
-
+**CORS Habilitado:**
 A API está configurada com CORS habilitado para permitir requisições da interface web:
 
 ```javascript
@@ -435,86 +217,61 @@ app.use(cors({
 }));
 ```
 
----
+### 5. Como Executar Exercício 2
 
-## Troubleshooting
+Ver instruções completas em [ex2/README.md](ex2/README.md#como-executar) que incluem:
+- Como construir e iniciar com Docker
+- Como testar os endpoints
+- Como parar os serviços
 
-### Erro: "Porta já em uso"
-
-Se a porta 17000, 19020 ou 19021 já estiver em uso:
-
-```bash
-# Verificar qual processo está usando a porta
-lsof -i :17000
-lsof -i :19020
-lsof -i :19021
-
-# Parar todos os containers Docker
-docker stop $(docker ps -q)
-```
-
-### Erro: "MongoDB connection refused"
-
-Aguardar alguns segundos após iniciar o docker-compose, pois MongoDB demora a iniciar:
-
-```bash
-# Ver logs do MongoDB
-docker logs mongodb_jogostabuleiro -f
-docker logs mongodb_leituras -f
-```
-
-### Erro: "Cannot GET /api-docs" (Ex1)
-
-Verificar se a porta está correta (17000) e se o container está a correr:
-
-```bash
-docker ps | grep ex1
-curl http://localhost:17000/
-```
-
-### Dados não aparecem na interface (Ex2)
-
-Verificar se CORS está ativado e se a API está a responder:
-
-```bash
-# Testar CORS
-curl -i http://localhost:19020/api/livros
-
-# Ver logs da API
-docker logs api_leituras -f
-```
 
 ---
 
-## Documentação Adicional
+## Como Executar os Exercícios
 
-Para documentação específica de cada exercício, consultar:
-- `ex1/README.md` - Detalhes do Exercício 1
-- `ex2/README.md` - Detalhes do Exercício 2
-
----
-
-## Requisitos Cumpridos
+Pré-requisitos: Docker e Docker Compose instalados
 
 ### Exercício 1
 
-- Análise e processamento do dataset
-- Importação em MongoDB com 3 coleções (jogos, autores, categorias)
-- 5 queries MongoDB documentadas
-- 8 endpoints da API (GET, POST, PUT, DELETE)
-- Interface Swagger funcional
-- Dockerização completa com docker-compose
+```bash
+cd ex1
+docker-compose up --build
+```
+
+Serviços disponíveis:
+- **API Jogos:** http://localhost:17000
+- **Swagger (Teste de Endpoints):** http://localhost:17000/api-docs
+
+Para parar:
+```bash
+docker-compose down
+```
+
+Para limpar dados:
+```bash
+docker-compose down -v
+```
 
 ### Exercício 2
 
-- Modelo Mongoose derivado da interface Vue.js
-- Dataset com 9 livros exemplificativos
-- 4 endpoints da API totalmente funcionais
-- Interface Vue.js completa em CORS habilitado
-- Dockerfile para API, MongoDB e Nginx
-- Docker-compose com 3 serviços orquestrados
-- MongoDB não exposto ao exterior
-- Nginx servindo ficheiro index.html estático
+```bash
+cd ex2
+docker-compose up --build
+```
+
+Serviços disponíveis:
+- **Interface Web:** http://localhost:19021
+- **API Livros:** http://localhost:19020/api/livros
+
+Para parar:
+```bash
+docker-compose down
+```
+
+Para limpar dados:
+```bash
+docker-compose down -v
+```
 
 ---
 
