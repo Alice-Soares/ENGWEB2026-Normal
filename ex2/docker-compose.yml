@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mongodb:
+    build:
+      context: .
+      dockerfile: Dockerfile.mongo
+    container_name: mongodb_leituras
+    networks:
+      - leitures-network
+    environment:
+      MONGO_INITDB_DATABASE: leituras
+    volumes:
+      - mongodb_data:/data/db
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api_leituras
+    ports:
+      - "19020:19020"
+    networks:
+      - leitures-network
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/leituras
+      PORT: 19020
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx_leituras
+    ports:
+      - "19021:19021"
+    networks:
+      - leitures-network
+    depends_on:
+      - api
+    restart: unless-stopped
+
+networks:
+  leitures-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

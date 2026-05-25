@@ -1,0 +1,14 @@
+{
+  "name": "leituras-api",
+  "version": "1.0.0",
+  "description": "API de dados para lista de leituras",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0",
+    "cors": "^2.8.5"
+  }
+}

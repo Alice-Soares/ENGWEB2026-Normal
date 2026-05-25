@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Minha Lista de Leituras</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        #app {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+        
+        input, select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .btn-add {
+            background: #667eea;
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-add:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
+        .books-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .book-card {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .book-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .book-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .book-author {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        
+        .book-info {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        .book-genre {
+            background: #f0f0f0;
+            color: #667eea;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+        }
+        
+        .book-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .checkbox-label input {
+            cursor: pointer;
+            width: auto;
+            margin: 0;
+        }
+        
+        .status-text {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .book-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            flex: 1;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-delete:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 1.1em;
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .status-unread {
+            background: #ffe5e5;
+            color: #e74c3c;
+        }
+        
+        .status-read {
+            background: #e5f5e5;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>📚 A Minha Lista de Leituras</h1>
+            
+            <!-- Formulário de adição -->
+            <div class="form-section">
+                <h2 style="margin-bottom: 15px; color: #333;">Adicionar novo livro</h2>
+                <div class="form-group">
+                    <input 
+                        v-model="novoLivro.titulo" 
+                        placeholder="Título" 
+                        type="text">
+                    <input 
+                        v-model="novoLivro.autor" 
+                        placeholder="Autor" 
+                        type="text">
+                </div>
+                <div class="form-group">
+                    <input 
+                        v-model.number="novoLivro.paginas" 
+                        placeholder="Número de páginas" 
+                        type="number">
+                    <input 
+                        v-model="novoLivro.genero" 
+                        placeholder="Género" 
+                        type="text">
+                </div>
+                <div class="button-group">
+                    <button class="btn-add" @click="adicionarLivro">+ Adicionar Livro</button>
+                </div>
+            </div>
+            
+            <!-- Caixa de busca -->
+            <div class="search-box">
+                <input 
+                    v-model="searchQuery" 
+                    placeholder="🔍 Procurar por título, autor ou género..." 
+                    type="text"
+                    @input="buscarLivros">
+            </div>
+            
+            <!-- Lista de livros -->
+            <div v-if="livros.length > 0" class="books-list">
+                <div v-for="livro in livros" :key="livro._id" class="book-card">
+                    <div class="book-title">{{ livro.titulo }}</div>
+                    <div class="book-author">por {{ livro.autor }}</div>
+                    <div v-if="livro.paginas" class="book-info">
+                        📄 {{ livro.paginas }} páginas
+                    </div>
+                    <div v-if="livro.genero" class="book-genre">
+                        {{ livro.genero }}
+                    </div>
+                    
+                    <div class="book-status">
+                        <label class="checkbox-label">
+                            <input 
+                                type="checkbox" 
+                                :checked="livro.lido"
+                                @change="toggleLido(livro)">
+                            <span class="status-text">Marcado como lido</span>
+                        </label>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <span class="status-badge" :class="livro.lido ? 'status-read' : 'status-unread'">
+                            {{ livro.lido ? '✓ Lido' : '○ Por ler' }}
+                        </span>
+                    </div>
+                    
+                    <div class="book-actions">
+                        <button class="btn-delete" @click="eliminarLivro(livro._id)">🗑️ Eliminar</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mensagem de vazio -->
+            <div v-else class="empty-message">
+                <p>Nenhum livro na tua lista... Adiciona o teu primeiro livro! 📖</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    livros: [],
+                    novoLivro: {
+                        titulo: '',
+                        autor: '',
+                        paginas: '',
+                        genero: ''
+                    },
+                    searchQuery: ''
+                };
+            },
+            methods: {
+                async carregarLivros() {
+                    try {
+                        const response = await axios.get('http://localhost:19020/api/livros');
+                        this.livros = response.data;
+                    } catch (error) {
+                        console.error('Erro ao carregar livros:', error);
+                    }
+                },
+                async buscarLivros() {
+                    try {
+                        const url = this.searchQuery 
+                            ? `http://localhost:19020/api/livros?search=${encodeURIComponent(this.searchQuery)}`
+                            : 'http://localhost:19020/api/livros';
+                        const response = await axios.get(url);
+                        this.livros = response.data;
+                    } catch (error) {
+                        console.error('Erro na busca:', error);
+                    }
+                },
+                async adicionarLivro() {
+                    if (!this.novoLivro.titulo || !this.novoLivro.autor) {
+                        alert('Por favor, preenche o título e o autor');
+                        return;
+                    }
+                    
+                    try {
+                        await axios.post('http://localhost:19020/api/livros', this.novoLivro);
+                        this.novoLivro = {
+                            titulo: '',
+                            autor: '',
+                            paginas: '',
+                            genero: ''
+                        };
+                        this.carregarLivros();
+                    } catch (error) {
+                        console.error('Erro ao adicionar livro:', error);
+                        alert('Erro ao adicionar livro');
+                    }
+                },
+                async toggleLido(livro) {
+                    try {
+                        await axios.put(`http://localhost:19020/api/livros/${livro._id}`, {
+                            lido: !livro.lido
+                        });
+                        livro.lido = !livro.lido;
+                    } catch (error) {
+                        console.error('Erro ao atualizar livro:', error);
+                    }
+                },
+                async eliminarLivro(id) {
+                    if (confirm('Tem certeza que quer eliminar este livro?')) {
+                        try {
+                            await axios.delete(`http://localhost:19020/api/livros/${id}`);
+                            this.carregarLivros();
+                        } catch (error) {
+                            console.error('Erro ao eliminar livro:', error);
+                            alert('Erro ao eliminar livro');
+                        }
+                    }
+                }
+            },
+            mounted() {
+                this.carregarLivros();
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

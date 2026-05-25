@@ -1,0 +1,58 @@
+[
+  {
+    "titulo": "Dom Casmurro",
+    "autor": "Machado de Assis",
+    "paginas": 256,
+    "genero": "Romance",
+    "lido": true
+  },
+  {
+    "titulo": "O Cortiço",
+    "autor": "Aluísio Azevedo",
+    "paginas": 300,
+    "genero": "Romance Naturalista",
+    "lido": false
+  },
+  {
+    "titulo": "Memórias Póstumas de Brás Cubas",
+    "autor": "Machado de Assis",
+    "paginas": 368,
+    "genero": "Romance",
+    "lido": true
+  },
+  {
+    "titulo": "O Homem Duplicado",
+    "autor": "José Saramago",
+    "paginas": 352,
+    "genero": "Romance Contemporâneo",
+    "lido": false
+  },
+  {
+    "titulo": "Capitães da Areia",
+    "autor": "Jorge Amado",
+    "paginas": 344,
+    "genero": "Romance",
+    "lido": true
+  },
+  {
+    "titulo": "O Grande Gatsby",
+    "autor": "F. Scott Fitzgerald",
+    "paginas": 180,
+    "genero": "Romance Clássico",
+    "lido": false
+  },
+  {
+    "titulo": "1984",
+    "autor": "George Orwell",
+    "paginas": 328,
+    "genero": "Ficção Científica",
+    "lido": true
+  },
+  {
+    "titulo": "O Silmarillion",
+    "autor": "J.R.R. Tolkien",
+    "paginas": 365,
+    "genero": "Fantasia",
+    "lido": false
+  }
+]
