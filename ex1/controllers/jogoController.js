@@ -90,6 +90,19 @@ const jogoController = {
         }
     },
 
+    // PUT /jogos/:id - Atualizar jogo por ID
+    updateJogo: async (req, res) => {
+        try {
+            const jogo = await Jogo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            if (!jogo) {
+                return res.status(404).json({ message: 'Jogo não encontrado' });
+            }
+            res.status(200).json(jogo);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    },
+
     // DELETE /jogos/:id - Eliminar jogo por ID
     deleteJogo: async (req, res) => {
         try {

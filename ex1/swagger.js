@@ -59,6 +59,30 @@ const swaggerSpec = {
                     '404': { description: 'Jogo não encontrado' }
                 }
             },
+            put: {
+                summary: 'Atualizar jogo por ID',
+                parameters: [
+                    { 
+                        name: 'id', 
+                        in: 'path', 
+                        required: true, 
+                        schema: { type: 'string' },
+                        description: 'ID do jogo'
+                    }
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        'application/json': {
+                            schema: { type: 'object' }
+                        }
+                    }
+                },
+                responses: { 
+                    '200': { description: 'Jogo atualizado com sucesso' },
+                    '404': { description: 'Jogo não encontrado' }
+                }
+            },
             delete: {
                 summary: 'Eliminar jogo por ID',
                 parameters: [

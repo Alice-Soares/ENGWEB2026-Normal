@@ -1,7 +1,7 @@
 
-2
+4
 
-Automatic Zoom
+70%
 Exame de época normal: engweb2026-normal
 UC: Engenharia Web (3º ano LEI)
 Data: 25 de Maio de 2026, 10h30, Ed.1 - sala 1.10
@@ -84,3 +84,33 @@ DELETE /jogos/:id: elimina da BD o registo correspondente ao jogo com o identifi
 passado na rota;
 engweb2026_normal.md 2026-05-22
 3 / 4
+PUT /jogos/:id: altera o registo do jogo com o identificador passado na rota;
+Acrescenta uma interface swagger à tua API de dados;
+Cria a(s) Dockerfile(s) necessária(s) e orquestra tudo num docker compose.
+Antes de prosseguires, testa as rotas realizadas com o Postman, ou a tua interface swagger ou similar.
+Exercício 2: Engenharia Reversa - A Minha Lista de Leituras [7 val.]
+Neste exercício apresenta-se uma proposta que terá de ser desenvolvida no sentido inverso ao habitual.
+Em anexo foi-te fornecido um ficheiro index.html que contém uma interface em Vue.js para gerir uma
+Lista de Livros a Ler (Reading List).
+Ao analisar o código fonte da interface, detetaste que o frontend faz os seguintes pedidos HTTP usando
+o Axios:
+GET http://localhost:19020/api/livros: com possível query string ?search=X;
+POST http://localhost:19020/api/livros: enviando um objeto com: titulo, autor, paginas,
+genero;
+PUT http://localhost:19020/api/livros/:id: alterando o estado booleano lido;
+DELETE http://localhost:19020/api/livros/:id: que irá provocar a remoção do registo
+identificado.
+A partir da análise da interface descrita, deverás realizar as seguintes tarefas na pasta ex2:[1 val.] Derivar o modelo de dados em Mongoose apropriado para suportar esta interface;[0.5 val.] Criar um pequeno dataset em JSON exemplificativo (pelo menos 6 registos) para povoar
+a base de dados inicialmente;[2.5 val.] Criar um serviço de API de dados em Express/Node.js que implemente rigorosamente
+os endpoints esperados pela interface;[3 val.] Preparar o ambiente para distribuição com Docker:
+Criar as especificações Dockerfile necessárias;
+Criar um ficheiro docker-compose.yml final que orquestre os serviços.
+Requisitos para o docker-compose:
+O servidor MongoDB não deverá estar exposto para o exterior (apenas acessível pela API na rede
+interna do docker);
+A API de dados deverá estar exposta ao exterior na porta 19020;
+Deves servir o ficheiro index.html estático usando um servidor Nginx no docker-compose,
+expondo-o na porta 19021.
+Bom trabalho e boa sorte, jcr
+engweb2026_normal.md 2026-05-22
+4 / 4

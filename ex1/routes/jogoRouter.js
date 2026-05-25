@@ -11,6 +11,9 @@ router.get('/:id', jogoController.getJogoById);
 // POST /jogos - Criar novo jogo
 router.post('/', jogoController.createJogo);
 
+// PUT /jogos/:id - Atualizar jogo por ID
+router.put('/:id', jogoController.updateJogo);
+
 // DELETE /jogos/:id - Eliminar jogo por ID
 router.delete('/:id', jogoController.deleteJogo);
 

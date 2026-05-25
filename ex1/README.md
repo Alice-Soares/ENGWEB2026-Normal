@@ -108,6 +108,21 @@ curl http://localhost:17000/jogos/catan
 
 **Resposta:** Jogo completo com todos os campos
 
+### PUT /jogos/:id
+Atualiza o jogo com o ID especificado
+
+**Exemplo:**
+```bash
+curl -X PUT http://localhost:17000/jogos/catan \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Catan - Nova Edição",
+    "year": 2024
+  }'
+```
+
+**Resposta:** Jogo atualizado com os novos dados
+
 ### POST /jogos
 Cria um novo jogo
 
