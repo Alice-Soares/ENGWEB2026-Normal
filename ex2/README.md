@@ -68,11 +68,11 @@ Retorna lista de todos os livros.
 
 **Exemplo:**
 ```bash
-# Listar todos (8 livros)
+# Listar todos (9 livros)
 curl http://localhost:19020/api/livros
 
-# Pesquisar por autor
-curl http://localhost:19020/api/livros?search=Machado
+# Pesquisar por autor Saramago
+curl http://localhost:19020/api/livros?search=Saramago
 
 # Pesquisar por género
 curl http://localhost:19020/api/livros?search=Ficção
@@ -180,7 +180,7 @@ curl -X DELETE http://localhost:19020/api/livros/507f1f77bcf86cd799439011
 
 ## Dataset Inicial
 
-8 livros de exemplo pré-carregados:
+9 livros de exemplo pré-carregados:
 
 | Título | Autor | Páginas | Género | Lido |
 |--------|-------|---------|--------|------|
@@ -192,6 +192,7 @@ curl -X DELETE http://localhost:19020/api/livros/507f1f77bcf86cd799439011
 | O Grande Gatsby | F. Scott Fitzgerald | 180 | Romance Clássico | Sim |
 | 1984 | George Orwell | 328 | Ficção Científica | Sim |
 | O Silmarillion | J.R.R. Tolkien | 365 | Fantasia | Não |
+| Ensaio sobre a Cegueira | José Saramago | 310 | Romance Contemporâneo | Não |
 
 ---
 
@@ -201,7 +202,7 @@ curl -X DELETE http://localhost:19020/api/livros/507f1f77bcf86cd799439011
 
 ### Funcionalidades:
 
-- **Listar livros** - Exibe todos os 8 livros em cards responsivos
+- **Listar livros** - Exibe todos os 9 livros em cards responsivos
 - **Pesquisa em tempo real** - Filtra por título, autor ou género
 - **Adicionar livros** - Formulário com validação
 - **Marcar como lido** - Toggle checkbox para estado de leitura
@@ -239,10 +240,8 @@ cd ex2
 # 2. Construir e iniciar os serviços
 docker-compose up --build
 
-# 3. Aguardar inicialização
-# MongoDB: ~2s
-# API: ~3s
-# Nginx: ~2s
+# 3. Aguardar inicialização (~7s total)
+# MongoDB com 9 livros será carregado
 ```
 
 ### Serviços Disponíveis

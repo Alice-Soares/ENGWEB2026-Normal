@@ -54,5 +54,12 @@
     "paginas": 365,
     "genero": "Fantasia",
     "lido": false
+  },
+  {
+    "titulo": "Ensaio sobre a Cegueira",
+    "autor": "José Saramago",
+    "paginas": 310,
+    "genero": "Romance Contemporâneo",
+    "lido": false
   }
 ]
