@@ -2,7 +2,9 @@
 
 ## Descrição
 
-API de dados para gerir uma lista de livros a ler (Reading List), com interface Vue.js.
+Aplicação web completa para gerir uma lista de livros a ler com arquitetura de microserviços em Docker. Combina uma API Express.js com base de dados MongoDB, frontend Vue.js 3, e servidor de ficheiros estáticos Nginx.
+
+---
 
 ## Estrutura do Projeto
 
@@ -30,7 +32,11 @@ ex2/
 
 ```
 
-## Modelo de Dados (Livro)
+---
+
+## Modelo de Dados
+
+### Esquema Livro
 
 ```javascript
 {
@@ -43,32 +49,61 @@ ex2/
 }
 ```
 
+**Índices para otimização:**
+- `titulo` - para pesquisa por nome
+- `autor` - para filtrar por autor
+- `genero` - para categorização
+
+---
+
 ## Endpoints da API
 
-A API está acessível em `http://localhost:19020/api/livros`
+**Base URL:** `http://localhost:19020/api/livros`
 
 ### GET /api/livros
-Retorna a lista de todos os livros.
+Retorna lista de todos os livros.
 
-**Query string opcional:**
-- `?search=X` - Filtra livros por título, autor ou género (busca case-insensitive)
+**Query Parameters (opcional):**
+- `search=X` - Pesquisa em titulo, autor e género (case-insensitive regex)
 
 **Exemplo:**
 ```bash
+# Listar todos (8 livros)
 curl http://localhost:19020/api/livros
+
+# Pesquisar por autor
 curl http://localhost:19020/api/livros?search=Machado
+
+# Pesquisar por género
+curl http://localhost:19020/api/livros?search=Ficção
 ```
 
-### POST /api/livros
-Adiciona um novo livro à base de dados.
+**Resposta:**
+```json
+[
+  {
+    "_id": "6a141f11a4414da504955ba2",
+    "titulo": "O Grande Gatsby",
+    "autor": "F. Scott Fitzgerald",
+    "paginas": 180,
+    "genero": "Romance Clássico",
+    "lido": false
+  }
+]
+```
 
-**Body esperado:**
+---
+
+### POST /api/livros
+Adiciona novo livro.
+
+**Body obrigatório:**
 ```json
 {
-  "titulo": "O Cortiço",
-  "autor": "Aluísio Azevedo",
+  "titulo": "Nome do Livro",
+  "autor": "Nome do Autor",
   "paginas": 300,
-  "genero": "Romance Naturalista"
+  "genero": "Género do Livro"
 }
 ```
 
@@ -76,13 +111,32 @@ Adiciona um novo livro à base de dados.
 ```bash
 curl -X POST http://localhost:19020/api/livros \
   -H "Content-Type: application/json" \
-  -d '{"titulo":"Saramago","autor":"Memorial de Aires","paginas":320,"genero":"Romance"}'
+  -d '{
+    "titulo": "O Alienista",
+    "autor": "Machado de Assis",
+    "paginas": 120,
+    "genero": "Conto"
+  }'
 ```
 
-### PUT /api/livros/:id
-Atualiza o estado de leitura (campo `lido`) de um livro.
+**Resposta de sucesso (201):**
+```json
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "titulo": "O Alienista",
+  "autor": "Machado de Assis",
+  "paginas": 120,
+  "genero": "Conto",
+  "lido": false
+}
+```
 
-**Body esperado:**
+---
+
+### PUT /api/livros/:id
+Atualiza estado de leitura de um livro.
+
+**Body obrigatório:**
 ```json
 {
   "lido": true
@@ -93,89 +147,261 @@ Atualiza o estado de leitura (campo `lido`) de um livro.
 ```bash
 curl -X PUT http://localhost:19020/api/livros/507f1f77bcf86cd799439011 \
   -H "Content-Type: application/json" \
-  -d '{"lido":true}'
+  -d '{"lido": true}'
 ```
 
+**Resposta:**
+```json
+{
+  "success": true,
+  "message": "Livro atualizado"
+}
+```
+
+---
+
 ### DELETE /api/livros/:id
-Remove um livro da base de dados.
+Remove um livro.
 
 **Exemplo:**
 ```bash
 curl -X DELETE http://localhost:19020/api/livros/507f1f77bcf86cd799439011
 ```
 
-## Dataset
+**Resposta:**
+```json
+{
+  "success": true,
+  "message": "Livro removido"
+}
+```
 
-O arquivo `dataset_livros.json` contém 8 livros exemplificativos:
+---
 
-- Dom Casmurro (Machado de Assis)
-- O Cortiço (Aluísio Azevedo)
-- Memórias Póstumas de Brás Cubas (Machado de Assis)
-- O Homem Duplicado (José Saramago)
-- Capitães da Areia (Jorge Amado)
-- O Grande Gatsby (F. Scott Fitzgerald)
-- 1984 (George Orwell)
-- O Silmarillion (J.R.R. Tolkien)
+## Dataset Inicial
+
+8 livros de exemplo pré-carregados:
+
+| Título | Autor | Páginas | Género | Lido |
+|--------|-------|---------|--------|------|
+| Dom Casmurro | Machado de Assis | 256 | Romance | Sim |
+| O Cortiço | Aluísio Azevedo | 300 | Romance Naturalista | Não |
+| Memórias Póstumas de Brás Cubas | Machado de Assis | 368 | Romance | Sim |
+| O Homem Duplicado | José Saramago | 352 | Romance Contemporâneo | Não |
+| Capitães da Areia | Jorge Amado | 344 | Romance | Sim |
+| O Grande Gatsby | F. Scott Fitzgerald | 180 | Romance Clássico | Sim |
+| 1984 | George Orwell | 328 | Ficção Científica | Sim |
+| O Silmarillion | J.R.R. Tolkien | 365 | Fantasia | Não |
+
+---
 
 ## Interface Web
 
-A interface Vue.js está acessível em `http://localhost:19021`
+**URL:** `http://localhost:19021`
 
-Funcionalidades:
-- - Listar todos os livros
-- - Procurar livros por título, autor ou género
-- - Adicionar novos livros
-- - Marcar livros como lidos/por ler
-- - Eliminar livros
+### Funcionalidades:
+
+- **Listar livros** - Exibe todos os 8 livros em cards responsivos
+- **Pesquisa em tempo real** - Filtra por título, autor ou género
+- **Adicionar livros** - Formulário com validação
+- **Marcar como lido** - Toggle checkbox para estado de leitura
+- **Eliminar livros** - Com confirmação
+- **Responsive Design** - Funciona em desktop e mobile
+- **Dark Mode** - Gradiente púrpura sofisticado
+
+### Tecnologias Frontend:
+
+- **Vue.js 3.3.4** (via CDN)
+- **Axios** para requisições HTTP
+- **CSS Grid** para layout responsivo
+- **Material Design** inspirado em padrões modernos
+
+---
 
 ## Como Executar
 
 ### Pré-requisitos
-- Docker e Docker Compose instalados
 
-### Passos
-
-1. **Posicionar-se na pasta ex2:**
 ```bash
-cd ex2
+# Verificar Docker instalado
+docker --version
+
+# Verificar Docker Compose
+docker-compose --version
 ```
 
-2. **Construir e iniciar os serviços:**
+### Instalação e Execução
+
 ```bash
+# 1. Navegar para a pasta
+cd ex2
+
+# 2. Construir e iniciar os serviços
+docker-compose up --build
+
+# 3. Aguardar inicialização
+# MongoDB: ~2s
+# API: ~3s
+# Nginx: ~2s
+```
+
+### Serviços Disponíveis
+
+| Serviço | Porta | URL | Status |
+|---------|-------|-----|--------|
+| Interface Web | 19021 | http://localhost:19021 | Público |
+| API REST | 19020 | http://localhost:19020 | Público |
+| MongoDB | 27017 | Interno | Privado |
+
+### Parar Serviços
+
+```bash
+docker-compose down
+
+# Com remoção de volumes (limpa dados)
+docker-compose down -v
+```
+
+---
+
+## Verificação de Saúde
+
+### Verificar Status dos Containers
+
+```bash
+docker ps | grep -E "nginx_leituras|api_leituras|mongodb_leituras"
+```
+
+### Testar API
+
+```bash
+# Health check
+curl http://localhost:19020
+
+# Obter todos os livros
+curl http://localhost:19020/api/livros | jq
+
+# Pesquisar
+curl http://localhost:19020/api/livros?search=Machado | jq
+
+# Ver logs da API
+docker logs api_leituras -f
+
+# Ver logs do MongoDB
+docker logs mongodb_leituras -f
+```
+
+---
+
+## Configuração de Segurança
+
+### CORS (Cross-Origin Resource Sharing)
+
+A API está configurada com CORS para aceitar requisições:
+
+```javascript
+app.use(cors({
+    origin: '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+```
+
+### MongoDB
+
+- Não exposto para o exterior
+- Acessível apenas através da API (por rede interna)
+- Dados persistentes no container
+
+### Nginx
+
+- Serve ficheiros estáticos com cache adequado
+- Fallback para `index.html` (SPA routing)
+- Try_files para Vue.js routing funcionar corretamente
+
+---
+
+## Stack Tecnológico
+
+| Componente | Tecnologia | Versão |
+|-----------|-----------|--------|
+| Runtime | Node.js | 18 (LTS) |
+| API Framework | Express.js | ^4.18.2 |
+| Base de Dados | MongoDB | latest |
+| ODM | Mongoose | ^7.0.0 |
+| CORS | cors | ^2.8.5 |
+| Frontend | Vue.js | 3.3.4 (CDN) |
+| HTTP Client | Axios | latest (CDN) |
+| Web Server | Nginx | latest |
+| Orquestração | Docker Compose | 3.8+ |
+
+---
+
+## Estrutura Docker
+
+### Dockerfile (API)
+```dockerfile
+FROM node:18
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 19020
+CMD ["npm", "start"]
+```
+
+### Dockerfile.mongo (MongoDB)
+```dockerfile
+FROM mongo:latest
+COPY dataset_livros.json /docker-entrypoint-initdb.d/
+COPY mongo-init/import.sh /docker-entrypoint-initdb.d/
+EXPOSE 27017
+```
+
+### Dockerfile.nginx (Web Server)
+```dockerfile
+FROM nginx:latest
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY public/index.html /usr/share/nginx/html/
+EXPOSE 19021
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+---
+
+## Troubleshooting
+
+### Problema: "Erro ao adicionar livro"
+
+**Solução:** Verificar se CORS está ativado
+```bash
+curl -i http://localhost:19020/api/livros
+# Procurar por headers: Access-Control-Allow-*
+```
+
+### Problema: Containers não iniciam
+
+```bash
+# Ver logs detalhados
+docker-compose logs
+
+# Verificar se portas estão livres
+lsof -i :19020
+lsof -i :19021
+lsof -i :27017
+```
+
+### Problema: Dados não aparecem
+
+```bash
+# Verificar MongoDB
+docker exec mongodb_leituras mongosh leituras --eval "db.livros.find()"
+
+# Reconstruir e limpar
+docker-compose down -v
 docker-compose up --build
 ```
 
-Isto vai:
-- Construir a imagem do MongoDB com o dataset pré-carregado
-- Construir a imagem da API Node.js
-- Construir a imagem do Nginx com a interface web
-- Iniciar os três serviços conectados à rede `leitures-network`
-
-3. **Aceder aos serviços:**
-- **Interface Web:** http://localhost:19021
-- **API de dados:** http://localhost:19020/api/livros
-
-### Paragens
-
-Para parar todos os serviços:
-```bash
-docker-compose down
-```
-
-## Requisitos Docker Cumpridos
-
-- MongoDB não está exposto para o exterior (apenas acessível internamente pela API)
-- API de dados exposta na porta 19020
-- Interface Nginx (index.html) exposta na porta 19021
-- Todos os serviços conectados à rede interna `leitures-network`
-- Docker Compose com orquestração adequada
-
-## Notas Técnicas
-
-- **Base de Dados:** MongoDB com nome `leituras`
-- **Coleção:** `livros`
-- **ORM:** Mongoose para interação com MongoDB
-- **Framework Web:** Express.js
-- **Frontend:** Vue.js 3 com Axios para requests HTTP
-- **Servidor de Ficheiros Estáticos:** Nginx
+---
 
