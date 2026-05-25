@@ -210,13 +210,6 @@ curl -X DELETE http://localhost:19020/api/livros/507f1f77bcf86cd799439011
 - **Responsive Design** - Funciona em desktop e mobile
 - **Dark Mode** - Gradiente púrpura sofisticado
 
-### Tecnologias Frontend:
-
-- **Vue.js 3.3.4** (via CDN)
-- **Axios** para requisições HTTP
-- **CSS Grid** para layout responsivo
-- **Material Design** inspirado em padrões modernos
-
 ---
 
 ## Como Executar
@@ -321,21 +314,6 @@ app.use(cors({
 
 ---
 
-## Stack Tecnológico
-
-| Componente | Tecnologia | Versão |
-|-----------|-----------|--------|
-| Runtime | Node.js | 18 (LTS) |
-| API Framework | Express.js | ^4.18.2 |
-| Base de Dados | MongoDB | latest |
-| ODM | Mongoose | ^7.0.0 |
-| CORS | cors | ^2.8.5 |
-| Frontend | Vue.js | 3.3.4 (CDN) |
-| HTTP Client | Axios | latest (CDN) |
-| Web Server | Nginx | latest |
-| Orquestração | Docker Compose | 3.8+ |
-
----
 
 ## Estrutura Docker
 
